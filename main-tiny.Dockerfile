@@ -46,6 +46,13 @@ RUN apt install -y \
       libcups2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Add this before your pnpm install step
+RUN apt-get update && apt-get install -y \
+    python3 \
+    && ln -s /usr/bin/python3 /usr/bin/python \
+    && rm -rf /var/lib/apt/lists/*
+
 # setup pnpm
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
