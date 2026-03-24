@@ -50,7 +50,8 @@ RUN apt install -y \
 # Add this before your pnpm install step
 RUN apt-get update && apt-get install -y \
     python3 \
-    && ln -s /usr/bin/python3 /usr/bin/python \
+    python-is-python3 \
+    g++ \
     && rm -rf /var/lib/apt/lists/*
 
 # setup pnpm
