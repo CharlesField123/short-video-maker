@@ -97,4 +97,8 @@ ENV VIDEO_CACHE_SIZE_IN_BYTES=2097152000
 # install kokoro, headless chrome and ensure music files are present 
 RUN node dist/scripts/install.js
 
+# Railway/Docker port
+ENV PORT=3123
+EXPOSE 3123
+
 CMD ["pnpm", "start"]

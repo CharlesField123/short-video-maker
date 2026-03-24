@@ -88,5 +88,10 @@ async function main() {
 }
 
 main().catch((error: unknown) => {
-  logger.error(error, "Error starting server");
+  if (error instanceof Error) {
+    logger.fatal({ err: error, stack: error.stack }, "Fatal error starting server");
+  } else {
+    logger.fatal({ err: error }, "Error starting server");
+  }
+  process.exit(1);
 });
