@@ -206,13 +206,15 @@ export class APIRouter {
             });
             return;
           }
-          const video = this.shortCreator.getVideo(videoId);
+          const videoPath = this.shortCreator.getVideoPath(videoId);
+          if (!fs.existsSync(videoPath)) throw new Error("Video not found");
+
           res.setHeader("Content-Type", "video/mp4");
           res.setHeader(
             "Content-Disposition",
             `inline; filename=${videoId}.mp4`,
           );
-          res.send(video);
+          res.sendFile(videoPath);
         } catch (error: unknown) {
           logger.error(error, "Error getting video");
           res.status(404).json({

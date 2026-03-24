@@ -23,6 +23,7 @@ export enum CaptionPositionEnum {
 
 export type Scene = {
   captions: Caption[];
+  citation?: string;
   video: string;
   audio: {
     url: string;

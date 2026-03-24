@@ -72,6 +72,9 @@ COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 COPY package.json /app/
 
+# Rebuild yt-dlp-exec to grab the standalone executable inside docker (pnpm as root skips postinstall)
+RUN find /app/node_modules -name "postinstall.js" -path "*/yt-dlp-exec/*" -exec node {} \;
+
 # app configuration via environment variables
 ENV DATA_DIR_PATH=/app/data
 ENV DOCKER=true

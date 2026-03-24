@@ -1,6 +1,7 @@
 import ffmpeg from "fluent-ffmpeg";
 import path from "path";
-import("@ffmpeg-installer/ffmpeg");
+import ffmpegInstaller from "@ffmpeg-installer/ffmpeg";
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 import fs from "fs-extra";
 
 import { logger } from "../logger";

@@ -61,7 +61,7 @@ export const PortraitVideo: React.FC<z.infer<typeof shortVideoSchema>> = ({
       />
 
       {scenes.map((scene, i) => {
-        const { captions, audio, video } = scene;
+        const { captions, citation, audio, video } = scene;
         const pages = createCaptionPages({
           captions,
           lineMaxLength: 20,
@@ -88,8 +88,26 @@ export const PortraitVideo: React.FC<z.infer<typeof shortVideoSchema>> = ({
             durationInFrames={durationInFrames}
             key={`scene-${i}`}
           >
-            <OffthreadVideo src={video} muted />
-            <Audio src={audio.url} />
+            <OffthreadVideo src={video} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <Audio src={audio.url} volume={0.15} />
+            {citation && (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 40,
+                  left: 40,
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  color: "white",
+                  padding: "10px 20px",
+                  borderRadius: "10px",
+                  fontSize: "3em",
+                  fontFamily: fontFamily,
+                  zIndex: 100,
+                }}
+              >
+                Source: {citation}
+              </div>
+            )}
             {pages.map((page, j) => {
               return (
                 <Sequence
@@ -128,7 +146,7 @@ export const PortraitVideo: React.FC<z.infer<typeof shortVideoSchema>> = ({
                           {line.texts.map((text, l) => {
                             const active =
                               frame >=
-                                startFrame + (text.startMs / 1000) * fps &&
+                              startFrame + (text.startMs / 1000) * fps &&
                               frame <= startFrame + (text.endMs / 1000) * fps;
                             return (
                               <>

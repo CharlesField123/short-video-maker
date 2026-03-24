@@ -12,6 +12,7 @@ export const shortVideoSchema = z.object({
   scenes: z.array(
     z.object({
       captions: z.custom<Caption[]>(),
+      citation: z.string().optional(),
       audio: z.object({
         url: z.string(),
         duration: z.number(),
@@ -155,10 +156,10 @@ export function calculateVolume(
     case "low":
       return [0.2, false];
     case "medium":
-      return [0.45, false];
+      return [0.6, false];
     case "high":
-      return [0.7, false];
+      return [1.0, false];
     default:
-      return [0.7, false];
+      return [1.0, false];
   }
 }

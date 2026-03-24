@@ -10,7 +10,7 @@ import { Kokoro } from "./libraries/Kokoro";
 import { Remotion } from "./libraries/Remotion";
 import { Whisper } from "./libraries/Whisper";
 import { FFMpeg } from "./libraries/FFmpeg";
-import { PexelsAPI } from "./libraries/Pexels";
+import { InstagramAPI } from "./libraries/Instagram";
 import { Config } from "../config";
 import { logger } from "../logger";
 import { MusicManager } from "./music";
@@ -36,9 +36,9 @@ export class ShortCreator {
     private kokoro: Kokoro,
     private whisper: Whisper,
     private ffmpeg: FFMpeg,
-    private pexelsApi: PexelsAPI,
+    private instagramApi: InstagramAPI,
     private musicManager: MusicManager,
-  ) {}
+  ) { }
 
   public status(id: string): VideoStatus {
     const videoPath = this.getVideoPath(id);
@@ -137,45 +137,19 @@ export class ShortCreator {
       const captions = await this.whisper.CreateCaption(tempWavPath);
 
       await this.ffmpeg.saveToMp3(audioStream, tempMp3Path);
-      const video = await this.pexelsApi.findVideo(
+      const video = await this.instagramApi.findVideo(
         scene.searchTerms,
         audioLength,
         excludeVideoIds,
         orientation,
+        tempVideoPath,
       );
-
-      logger.debug(`Downloading video from ${video.url} to ${tempVideoPath}`);
-
-      await new Promise<void>((resolve, reject) => {
-        const fileStream = fs.createWriteStream(tempVideoPath);
-        https
-          .get(video.url, (response: http.IncomingMessage) => {
-            if (response.statusCode !== 200) {
-              reject(
-                new Error(`Failed to download video: ${response.statusCode}`),
-              );
-              return;
-            }
-
-            response.pipe(fileStream);
-
-            fileStream.on("finish", () => {
-              fileStream.close();
-              logger.debug(`Video downloaded successfully to ${tempVideoPath}`);
-              resolve();
-            });
-          })
-          .on("error", (err: Error) => {
-            fs.unlink(tempVideoPath, () => {}); // Delete the file if download failed
-            logger.error(err, "Error downloading video:");
-            reject(err);
-          });
-      });
 
       excludeVideoIds.push(video.id);
 
       scenes.push({
         captions,
+        citation: video.citation,
         video: `http://localhost:${this.config.port}/api/tmp/${tempVideoFileName}`,
         audio: {
           url: `http://localhost:${this.config.port}/api/tmp/${tempMp3FileName}`,
