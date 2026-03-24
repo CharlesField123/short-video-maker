@@ -87,6 +87,7 @@ RUN find /app/node_modules -name "postinstall.js" -path "*/yt-dlp-exec/*" -exec 
 # app configuration via environment variables
 ENV DATA_DIR_PATH=/app/data
 ENV DOCKER=true
+ENV DEV=true
 ENV WHISPER_MODEL=tiny.en
 ENV KOKORO_MODEL_PRECISION=q4
 # number of chrome tabs to use for rendering

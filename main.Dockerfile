@@ -84,6 +84,7 @@ COPY src /app/src
 # app configuration via environment variables
 ENV DATA_DIR_PATH=/app/data
 ENV DOCKER=true
+ENV DEV=true
 ENV WHISPER_MODEL=base.en
 # number of chrome tabs to use for rendering
 ENV CONCURRENCY=1
