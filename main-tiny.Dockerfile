@@ -93,7 +93,7 @@ ENV CONCURRENCY=1
 # video cache - 2000MB
 ENV VIDEO_CACHE_SIZE_IN_BYTES=2097152000
 
-# install kokoro, headless chrome and ensure music files are present
+# install kokoro, headless chrome and ensure music files are present 
 RUN node dist/scripts/install.js
 
 CMD ["pnpm", "start"]
