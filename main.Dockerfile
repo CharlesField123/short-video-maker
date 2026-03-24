@@ -79,6 +79,7 @@ COPY --from=install-whisper /whisper /app/data/libs/whisper
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 COPY package.json /app/
+COPY src /app/src
 
 # app configuration via environment variables
 ENV DATA_DIR_PATH=/app/data

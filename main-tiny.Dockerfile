@@ -79,6 +79,7 @@ COPY --from=install-whisper /whisper /app/data/libs/whisper
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 COPY package.json /app/
+COPY src /app/src
 
 # Rebuild yt-dlp-exec to grab the standalone executable inside docker (pnpm as root skips postinstall)
 RUN find /app/node_modules -name "postinstall.js" -path "*/yt-dlp-exec/*" -exec node {} \;
