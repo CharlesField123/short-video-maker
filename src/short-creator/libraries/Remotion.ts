@@ -14,7 +14,7 @@ export class Remotion {
   constructor(
     private bundled: string,
     private config: Config,
-  ) {}
+  ) { }
 
   static async init(config: Config): Promise<Remotion> {
     await ensureBrowser();
@@ -61,6 +61,7 @@ export class Remotion {
       // preventing memory issues with docker
       concurrency: this.config.concurrency,
       offthreadVideoCacheSizeInBytes: this.config.videoCacheSizeInBytes,
+      chromeMode: "headless-shell",
     });
 
     logger.debug(
@@ -92,6 +93,7 @@ export class Remotion {
       // preventing memory issues with docker
       concurrency: this.config.concurrency,
       offthreadVideoCacheSizeInBytes: this.config.videoCacheSizeInBytes,
+      chromeMode: "headless-shell",
     });
   }
 }

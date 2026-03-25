@@ -85,11 +85,13 @@ COPY src /app/src
 ENV DATA_DIR_PATH=/app/data
 ENV DOCKER=true
 ENV DEV=true
-ENV WHISPER_MODEL=base.en
+ENV WHISPER_MODEL=tiny.en
 # number of chrome tabs to use for rendering
 ENV CONCURRENCY=1
-# video cache - 2000MB
-ENV VIDEO_CACHE_SIZE_IN_BYTES=2097152000
+# video cache - 128MB (was 512MB) to stay under 1GB RAM limit
+ENV VIDEO_CACHE_SIZE_IN_BYTES=134217728
+# Limit Node.js heap size
+ENV NODE_OPTIONS="--max-old-space-size=512"
 
 # install kokoro, headless chrome and ensure music files are present 
 RUN node dist/scripts/install.js
